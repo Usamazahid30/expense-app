@@ -1,0 +1,45 @@
+
+
+name: CI
+
+
+on:
+ 
+  push:
+    branches: [ master ]
+
+
+ 
+ 
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+-name: Setup Node.js environment
+uses: action/setup-node@v2-beta
+with:
+          version: 12
+          
+          -name: Github Action for yarn
+          uses: Borales/actions-yarn@2.1.0
+          with:
+          cmd: intall 
+          
+         -name: Creating build
+          run: yarn build
+          
+          -name: installing surge
+          run: npm install -g surge
+          
+          -name: deploying on surge
+          run: surge ./build https://expense-tracker-app-usama.surge.sh/ --token ${{secrets.SURGE_TOKEN}}
+          
+          
+    
